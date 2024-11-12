@@ -24,7 +24,7 @@
 
 **Quantify<>** is a C++ module library that keeps track of engineering units while performing conversions as needed. It does this with no runtime memory overhead by encoding units as template parameters. It is capable of deducing units from arithmetic operations as long as all the operands have units attached to them.
 
-**Quantify<>** can reduce most unit expressions to their simplest representation. For instance, multiplying meters per second [$m/s$] and seconds [$s$] results in meters [$m$], not [$\frac{m}{s}s$]. This is done via **recursive pattern matching** implemented through template specialization, so it happens at compile-time. Reduction rules can be found in [`reduce_rules.cppm`](./include/quantify/reduce_rules.cppm).
+**Quantify<>** can reduce most unit expressions to their simplest representation. For instance, multiplying meters per second [m/s] and seconds [s] results in meters [m], not [(m/s)*s]. This is done via **recursive pattern matching** implemented through template specialization, so it happens at compile-time. Reduction rules can be found in [`reduce_rules.cppm`](./include/quantify/reduce_rules.cppm).
 
 **Quantify<>** also provides a few concepts that can help make mathematical algorithms unit agnostic. Unit conversions are performed as needed. Here is a simple example implementing Newton's Second Law:
 
@@ -39,7 +39,7 @@ auto second_law(
 }
 ```
 
-This function is unit and type agnostic. It accepts any quantity of mass and any quantity of acceleration and multiplies them taking into account unit conversion factors. The resultant unit will be deduced from the provided units. Using the metric system this would be [$kg$]x[$\frac{m}{s^2}$] = [$\frac{kg*m}{s^2}$] = [$N$]. However any other units can be used. The return unit scale can also be specified in the same manner and can be used for checking for unit inconsistensies within the function.
+This function is unit and type agnostic. It accepts any quantity of mass and any quantity of acceleration and multiplies them taking into account unit conversion factors. The resultant unit will be deduced from the provided units. Using the metric system this would be [kg]x[m/(s^2)] = [(kg*m)/(s^2)] = [N]. However any other units can be used. The return unit scale can also be specified in the same manner and can be used for checking for unit inconsistensies within the function.
 
 Implementing functions in this manner avoids having to overload them for every combination of units or having to manually convert units.
 
@@ -124,7 +124,7 @@ using namespace quantify;
 
 Quantities with units can be declared using the `Q<UnitExpression, Type>` template. `UnitExpression` the unit and `Type` the underlying type where the value is stored. The requirements for `Type` are that it must implement all arithmetic operations as well as construction from number literals.
 
-Units are organized in **scales** which represent physical properties. Some scales are _distance_, _mass_, _time_, _etc_. Each scale is implemented as a namespace with some metadata. Units belonging to a specific scale are then found within its namespace. This library defines all base scales in the **International System of Units** as well as most scales derived from them.
+Units are organized in **scales** which represent physical properties. Some scales are _distance_, _mass_, _time_, _etc_. Each scale is implemented as a namespace with some metadata. Units belonging to a specific scale are then found within its namespace. This library defines all base scales in the **International System of Units** as well as most scales derived from them. A `no_unit` unit is also defined to accomodate for quantities that do not have a unit, such as ratios. The `no_unit` unit is also useful when defining a unit expression as a fraction where the numerator is 1, such as frequency [1/s]. The `no_unit` unit is a part of the `no_scale` unit scale.
 
 Some examples of quantities:
 
@@ -138,6 +138,9 @@ Q<substance::mol, double> some_substance_quantity = 4.0;
 // Derived units
 Q<energy::kilojoule, double> some_energy = 1.0;
 Q<pressure::hectopascals, double> some_pressure = 1.0;
+
+// no_unit unit
+Q<no_unit, double> some_number = 1.0;
 ```
 
 Units can also be specified as expression. For this purpose, the templates `frac<Numerator, Denominator>` and `mul<Products...>` are used to represent fractions and multiplications. Due to the nature of units, this is enough to represent almost all possible units. The main limitation being fractional exponents, which this library has no way of representing.
@@ -147,6 +150,7 @@ Some examples of unit expressions:
 ```cpp
 Q<frac<distance::meters, time::seconds>, double>  -> [m/s] (velocity)
 Q<mul<force::newtons, distance::meters>, double>  -> [Nm]  (torque)
+Q<frac<no_unit, time_seconds>, double>            -> [1/s] (frequency)
 ```
 
 Derived units act as aliases to their corresponding base unit expressions. For instance `force::newtons` is an alias to:
@@ -216,7 +220,7 @@ It is not necessary to specialize a factor for both directions of conversion. Re
 
 ### Custom Conversions between Scales
 
-Sometimes, different units within a scale cannot be converted between each other just with a fractional factor. For instance, in order to convert between `temperature::kelvin` and `temperature::celsius`, addition or subtraction are required ([$K$] = [$C$] + 273.15). For these cases, it is recommended to declare two different scales and then declare a custom conversion as follows:
+Sometimes, different units within a scale cannot be converted between each other just with a fractional factor. For instance, in order to convert between `temperature::kelvin` and `temperature::celsius`, addition or subtraction are required ([K] = [C] + 273.15). For these cases, it is recommended to declare two different scales and then declare a custom conversion as follows:
 
 ```cpp
 SCALE_CONVERSION(scales::kelvin::scale, scales::celsius::scale)
