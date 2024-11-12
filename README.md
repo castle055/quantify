@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <img src="logo/name_logo.png" alt="Cyd UI" width="200">
+  <img src="./logo/name_logo.png" alt="Quantify<>" width="200">
 </h1>
 
 <h4 align="center">An extensible C++ units library</h4>
@@ -181,7 +181,7 @@ Here is an example of how to add a unit to the distance scale:
 
 namespace distance {
   //    Identifier       Symbol  Conversion Factor
-  //  /-----------------\ /---\ /--------------\ 
+  //  /-----------------\ /---\ /--------------| 
   UNIT(astronomical_unit, "AU", 150000000000, 1)
 }
 ```
