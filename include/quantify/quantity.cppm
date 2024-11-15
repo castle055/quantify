@@ -105,8 +105,22 @@ export namespace quantify {
 
     template<typename U1, typename T1>
       requires (SameScale<U, U1>)
+    quantity_t<R(U), T1>& operator+=(const quantity_t<U1, T1> &rhl) {
+      this->value += rhl.template as<R(U)>().value;
+      return *this;
+    }
+
+    template<typename U1, typename T1>
+      requires (SameScale<U, U1>)
     quantity_t<R(U), T1> operator-(const quantity_t<U1, T1> &rhl) const {
       return {this->value - rhl.template as<R(U)>().value};
+    }
+
+    template<typename U1, typename T1>
+      requires (SameScale<U, U1>)
+    quantity_t<R(U), T1>& operator-=(const quantity_t<U1, T1> &rhl) {
+      this->value -= rhl.template as<R(U)>().value;
+      return *this;
     }
 
     quantity_t<U, T> operator-() const {
