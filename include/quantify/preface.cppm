@@ -46,14 +46,20 @@ namespace quantify {
     template <typename N, typename D>
     struct frac;
 
-    template <typename M>
-    using is_mul = packtl::is_type<mul, M>;
+    template <typename ...>
+    struct is_mul: std::false_type {};
+
+    template <typename ...Args>
+    struct is_mul<mul<Args...>>: std::true_type {};
 
     template <typename M>
     constexpr bool is_mul_v = is_mul<M>::value;
 
-    template <typename F>
-    using is_frac = packtl::is_type<frac, F>;
+    template <typename ...>
+    struct is_frac: std::false_type {};
+
+    template <typename ...Args>
+    struct is_frac<frac<Args...>>: std::true_type {};
 
     template <typename F>
     constexpr bool is_frac_v = is_frac<F>::value;
