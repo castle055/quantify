@@ -204,7 +204,7 @@ export namespace quantify {
     template<typename U1>
       requires SameScale<U, U1> || Convertible<U, U1, T> || ConvertibleScales<typename U::scale, typename U1::scale, U, U1, T>
     [[nodiscard]]
-    quantity_t<U1, T> as() const {
+    constexpr quantity_t<U1, T> as() const {
       if constexpr (std::is_same_v<U, U1>) {
         return *this;
       } else if constexpr (SameScale<U, U1>) {
