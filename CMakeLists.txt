@@ -102,7 +102,7 @@ include(FetchContent)
 #[[                           CONFIGURE CYD FABRIC                           ]]#
 FetchContent_Declare(packtl
         GIT_REPOSITORY https://github.com/castle055/packtl.git
-        GIT_TAG v1.0.0
+        GIT_TAG main
         FIND_PACKAGE_ARGS
 )
 FetchContent_MakeAvailable(packtl)
