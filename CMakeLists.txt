@@ -15,8 +15,7 @@
 #                                                                              #
 #[[  CMAKE STRUCTURE:                                                        ]]#
 #      - Project setup                                                         #
-#      - Configure dependencies:                                               #
-#          - Pack-TL                                                           #
+#      - Configure dependencies                                                #
 #      - Configure Quantify<>                                                  #
 #      - Configure tests                                                       #
 #      - Configure Doxygen documentation                                       #
@@ -49,18 +48,15 @@ endif ()
 # Use `-DCMAKE_BUILD_TYPE=` to override this.
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING "")
 
-cmake_minimum_required(VERSION 3.29.20240518 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.30 FATAL_ERROR)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-project(quantify LANGUAGES CXX C)
-
+set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "0e5b6991-d74f-4b3d-a41c-cf096e0b2508")
+set(CMAKE_CXX_MODULE_STD ON)
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED YES)
-set(CMAKE_CXX_EXTENSIONS OFF)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmodules-ts -std=c++23")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -pthread")
 
-message("CMAKE VERSION: " ${CMAKE_VERSION})
-message("COMPILER: " ${CMAKE_CXX_COMPILER})
+project(quantify LANGUAGES CXX C)
 
 SET(QUANTIFY_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 SET(QUANTIFY_TEST_DIR ${QUANTIFY_DIR}/test)
@@ -68,30 +64,6 @@ SET(QUANTIFY_INCLUDE_DIR ${QUANTIFY_DIR}/include)
 SET(QUANTIFY_SOURCE_DIR ${QUANTIFY_DIR}/src)
 SET(QUANTIFY_CMAKE_DIR ${QUANTIFY_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${QUANTIFY_CMAKE_DIR}/Modules)
-
-
-include(cmake/compiler_flags.cmake)
-compiler_flags(
-        "-stdlib=libc++"
-        "-Wall"
-        "-Wextra"
-        "-pedantic"
-        "-Werror"
-
-#        "-Wliteral-suffix"
-
-        "-Wno-unused-function"
-        "-Wno-unused-parameter"
-        "-Wno-unused-variable"
-        "-Wno-unused-value"
-        "-Wno-unused-but-set-variable"
-        "-Wno-missing-field-initializers"
-        "-Wno-error=unused"
-        "-Wno-unused-local-typedefs"
-
-        "-Wno-unknown-pragmas"
-#        "-freport-bug"
-)
 
 
 ################################################################################
@@ -127,6 +99,7 @@ FILE(GLOB_RECURSE SRC_MOD_LIST CONFIGURE_DEPENDS
 
 target_include_directories(quantify PUBLIC ${QUANTIFY_INCLUDE_DIR})
 target_compile_features(quantify PUBLIC cxx_std_23)
+target_compile_options(quantify PUBLIC -stdlib=libc++ -pthread)
 target_sources(quantify
         PUBLIC ${SRC_LIST}
         PUBLIC
@@ -136,11 +109,7 @@ target_sources(quantify
         BASE_DIRS ${QUANTIFY_SOURCE_DIR} ${QUANTIFY_INCLUDE_DIR}
         FILES ${SRC_MOD_LIST}
 )
-target_link_libraries(quantify
-        PUBLIC
-        std
-        packtl
-)
+target_link_libraries(quantify PUBLIC packtl)
 
 
 ################################################################################
