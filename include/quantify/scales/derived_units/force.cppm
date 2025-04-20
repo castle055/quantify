@@ -16,14 +16,17 @@
 module;
 #include "quantify/unit_macros.h"
 export module quantify.scales:force;
-export import quantify.core;
+import quantify.core;
 
 import :mass;
 import :distance;
 import :time;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(force, frac<mul<mass::scale, distance::scale>, mul<time::scale, time::scale>>) {
     UNIT(newtons, "N", 1, 1);
   }
+  //! @}
 }

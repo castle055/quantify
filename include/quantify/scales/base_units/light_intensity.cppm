@@ -16,10 +16,13 @@
 module;
 #include "quantify/unit_macros.h"
 export module quantify.scales:light_intensity;
-export import quantify.core;
+import quantify.core;
 
 export namespace quantify {
+  //! @addtogroup base_units Base scales
+  //! @{
   SCALE(light_intensity) {
-    METRIC_SCALE(candela, "cd", 1, 1)
+    METRIC_UNIT(candela, "cd", 1, 1);
   }
+  //! @}
 }

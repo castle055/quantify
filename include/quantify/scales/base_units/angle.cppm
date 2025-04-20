@@ -16,11 +16,14 @@
 module;
 #include "quantify/unit_macros.h"
 export module quantify.scales:angle;
-export import quantify.core;
+import quantify.core;
 
 export namespace quantify {
+  //! @addtogroup base_units Base scales
+  //! @{
   SCALE(angle) {
-    UNIT(degrees, "deg", 1,1)
-    UNIT(radians, "rad", 180*10000000000000000,31415926535893238)
+    UNIT(degrees, "deg", 1, 1);
+    UNIT(radians, "rad", 180 * 10000000000000000, 31415926535893238);
   }
-}
+  //! @}
+} // namespace quantify

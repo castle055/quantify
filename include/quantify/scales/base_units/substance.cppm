@@ -16,10 +16,13 @@
 module;
 #include "quantify/unit_macros.h"
 export module quantify.scales:substance;
-export import quantify.core;
+import quantify.core;
 
 export namespace quantify {
+  //! @addtogroup base_units Base scales
+  //! @{
   SCALE(substance) {
-    METRIC_SCALE(mole, "mol", 1, 1)
+    METRIC_UNIT(mole, "mol", 1, 1);
   }
+  //! @}
 }

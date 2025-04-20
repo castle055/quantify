@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:inductance;
-export import quantify.core;
+import quantify.core;
 
 import :electric_current;
 import :magnetic_flux;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(inductance, frac<magnetic_flux::scale, electric_current::scale>) {
-    METRIC_SCALE(henries, "H", 1, 1)
+    METRIC_UNIT(henries, "H", 1, 1);
   }
+  //! @}
 }

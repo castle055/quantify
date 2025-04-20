@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:power;
-export import quantify.core;
+import quantify.core;
 
 import :energy;
 import :time;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(power, frac<energy::scale, time::scale>) {
-    METRIC_SCALE(watts, "W", 1, 1)
+    METRIC_UNIT(watts, "W", 1, 1);
   }
+  //! @}
 }

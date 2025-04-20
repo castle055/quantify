@@ -7,9 +7,9 @@
 <h4 align="center">An extensible C++ units library</h4>
 
 <p align="center">
-<img alt="Language" src="https://img.shields.io/badge/LANG-C%2B%2B-blue?&style=for-the-badge&logo=c%2B%2B&logoColor=blue">
-<img alt="GitHub" src="https://img.shields.io/github/license/castle055/quantify?style=for-the-badge">
-<img alt="GitHub tag (latest SemVer)" src="https://img.shields.io/github/v/tag/castle055/quantify?color=%23fcae1e&label=latest&sort=semver&style=for-the-badge">
+<img alt="Language" src="https://img.shields.io/badge/LANG-C%2B%2B-blue?&style=for-the-badge&logo=c%2B%2B&logoColor=blue"/>
+<img alt="GitHub" src="https://img.shields.io/github/license/castle055/quantify?style=for-the-badge"/>
+<img alt="GitHub tag (latest SemVer)" src="https://img.shields.io/github/v/tag/castle055/quantify?color=%23fcae1e&label=latest&sort=semver&style=for-the-badge"/>
 </p>
 
 <p align="center">
@@ -19,6 +19,8 @@
   <a href="#documentation">Documentation</a> •
   <a href="#license">License</a>
 </p>
+
+[TOC]
 
 ## Overview
 
@@ -32,10 +34,10 @@
 using namespace quantify;
 
 auto second_law(
-  Quantity<mass::scale> auto mass,
-  Quantity<frac<distance::scale, mul<time::scale, time::scale>>> auto acceleration
+  mass::quantity auto m,
+  Quantity<frac<distance::scale, mul<time::scale, time::scale>>> auto a
 ) {
-  return mass * acceleration;
+  return m * a; // Force = Mass * Acceleration
 }
 ```
 
@@ -47,7 +49,7 @@ Implementing functions in this manner avoids having to overload them for every c
 
 ## How to Build
 
-After cloning this repository, or otherwise getting a copy of this directory, configure the library by running the following CMake command in this directory:
+After cloning this repository, or otherwise getting a copy of the source code, configure the library by running the following CMake command in this directory:
 
 ```sh
 #          Built type (Debug/Release)    Build dir  Generator
@@ -57,7 +59,7 @@ cmake -DCMAKE_BUILD_TYPE:STRING=Release -B./build -G Ninja
 
 ### Build Quantify
 
-Once the project is configured, the library can be build with the following command:
+Once the project is configured, the library can be built with the following command:
 
 ```sh
 #      Build dir    Built type      Build target
@@ -67,7 +69,7 @@ cmake -B./build --config Release --target quantify
 
 ### Build Documentation
 
-Doxygen documentation can be build with the following command:
+Doxygen documentation can be built with the following command:
 
 ```sh
 #      Build dir    Built type        Build target

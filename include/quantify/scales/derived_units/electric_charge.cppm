@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:electric_charge;
-export import quantify.core;
+import quantify.core;
 
 import :electric_current;
 import :time;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(electric_charge, mul<electric_current::scale, time::scale>) {
-    METRIC_SCALE(coulombs, "C", 1, 1)
+    METRIC_UNIT(coulombs, "C", 1, 1);
   }
+  //! @}
 }

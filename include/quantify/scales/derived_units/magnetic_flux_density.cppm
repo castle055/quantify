@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:magnetic_flux_density;
-export import quantify.core;
+import quantify.core;
 
 import :magnetic_flux;
 import :distance;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(magnetic_flux_density, frac<magnetic_flux::scale, mul<distance::scale, distance::scale>>) {
-    METRIC_SCALE(teslas, "T", 1, 1)
+    METRIC_UNIT(teslas, "T", 1, 1);
   }
+  //! @}
 }

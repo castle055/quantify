@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:illuminance;
-export import quantify.core;
+import quantify.core;
 
 import :luminous_flux;
 import :distance;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(illuminance, frac<luminous_flux::scale, mul<distance::scale, distance::scale>>) {
-    METRIC_SCALE(lux, "lx", 1, 1)
+    METRIC_UNIT(lux, "lx", 1, 1);
   }
+  //! @}
 }

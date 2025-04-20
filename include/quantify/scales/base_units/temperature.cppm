@@ -16,9 +16,11 @@
 module;
 #include "quantify/unit_macros.h"
 export module quantify.scales:temperature;
-export import quantify.core;
+import quantify.core;
 
 export namespace quantify {
+  //! @addtogroup base_units Base scales
+  //! @{
   namespace temperature {
     namespace scales {
       SCALE(kelvin) {}
@@ -26,13 +28,14 @@ export namespace quantify {
       SCALE(fahrenheit) {}
     }
 
-    UNIT_IN_SCALE(scales::kelvin::scale, kelvin, "K", 1, 1)
+    UNIT_IN_SCALE(scales::kelvin::scale, kelvin, "K", 1, 1);
 
-    UNIT_IN_SCALE(scales::celsius::scale, celsius, "C", 1, 1)
-    UNIT_IN_SCALE(scales::celsius::scale, millicelsius, "mC", 1, 1000)
+    UNIT_IN_SCALE(scales::celsius::scale, celsius, "C", 1, 1);
+    UNIT_IN_SCALE(scales::celsius::scale, millicelsius, "mC", 1, 1000);
 
-    UNIT_IN_SCALE(scales::fahrenheit::scale, fahrenheit, "F", 1, 1)
+    UNIT_IN_SCALE(scales::fahrenheit::scale, fahrenheit, "F", 1, 1);
   }
+  //! @}
 }
 
 using namespace quantify::temperature;

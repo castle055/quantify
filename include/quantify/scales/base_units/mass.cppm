@@ -16,11 +16,14 @@
 module;
 #include "quantify/unit_macros.h"
 export module quantify.scales:mass;
-export import quantify.core;
+import quantify.core;
 
 export namespace quantify {
+  //! @addtogroup base_units Base scales
+  //! @{
   SCALE(mass) {
-    METRIC_SCALE(grams, "g", 1, 1000)
-    UNIT(ton, "T", 1000, 1)
+    METRIC_UNIT(grams, "g", 1, 1000);
+    UNIT(ton, "T", 1000, 1);
   }
+  //! @}
 }

@@ -16,16 +16,19 @@
 module;
 #include "quantify/unit_macros.h"
 export module quantify.scales:speed;
-export import quantify.core;
+import quantify.core;
 
 import :distance;
 import :time;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   namespace speed {
     using scale = frac<distance::scale, time::scale>;
     template<typename Q> concept quantity = Quantity<Q, scale>;
 
-    struct m_s: frac<distance::meters, time::seconds> {};
+    struct m_s: frac<distance::meter, time::seconds> {};
   }
+  //! @}
 }

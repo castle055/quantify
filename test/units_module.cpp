@@ -1,5 +1,17 @@
-// Copyright (c) 2024, Víctor Castillo Agüero.
-// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (c) 2024-2025, Víctor Castillo Agüero.
+// SPDX-License-Identifier: Apache-2.0
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #define CAIRO_HAS_PDF_SURFACE true
 
@@ -79,13 +91,13 @@ void setup() {
 }
 
 TEST("Factors") {
-  Q<distance::meters, double> d1 {10};
-  Q<distance::kilometers, double> d2 {1};
+  Q<distance::meter, double> d1 {10};
+  Q<distance::kilometer, double> d2 {1};
 
   std::cout << "d1: " << (d1) << std::endl;
-  std::cout << "d1: " << (d1.as<distance::kilometers>()) << std::endl;
+  std::cout << "d1: " << (d1.as<distance::kilometer>()) << std::endl;
   std::cout << "d2: " << (d2) << std::endl;
-  std::cout << "d2: " << (d2.as<distance::meters>()) << std::endl;
+  std::cout << "d2: " << (d2.as<distance::meter>()) << std::endl;
   std::cout << " *: " << (d1 * d2) << std::endl;
 
   return 0;
@@ -93,34 +105,34 @@ TEST("Factors") {
 
 TEST("Unit reduction") {
 //@formatter:off
-  assert_unit   <frac<meters, frac<meters, seconds>>>               ::reduces_to<seconds>();
-  assert_unit   <frac<meters, frac<seconds, meters>>>               ::reduces_to<frac<mul<meters,meters>,seconds>>();
-  assert_unit   <frac<frac<meters, seconds>, seconds>>              ::reduces_to<frac<meters, mul<seconds, seconds>>>();
+  assert_unit   <frac<meter, frac<meter, seconds>>>               ::reduces_to<seconds>();
+  assert_unit   <frac<meter, frac<seconds, meter>>>               ::reduces_to<frac<mul<meter,meter>,seconds>>();
+  assert_unit   <frac<frac<meter, seconds>, seconds>>              ::reduces_to<frac<meter, mul<seconds, seconds>>>();
   assert_unit   <frac<seconds, seconds>>                            ::reduces_to<no_unit>();
   assert_unit   <frac<seconds, no_unit>>                            ::reduces_to<seconds>();
   assert_unit   <frac<no_unit, seconds>>                            ::reduces_to<frac<no_unit, seconds>>();
   assert_unit   <frac<no_unit, no_unit>>                            ::reduces_to<no_unit>();
   assert_unit   <mul<no_unit, no_unit>>                             ::reduces_to<no_unit>();
-  assert_unit   <mul<meters>>                                       ::reduces_to<meters>();
-  assert_unit   <mul<meters, no_unit>>                              ::reduces_to<meters>();
-  assert_unit   <mul<no_unit, meters>>                              ::reduces_to<meters>();
-  assert_unit   <mul<meters, frac<grams, meters>>>                  ::reduces_to<grams>();
-  assert_unit   <mul<frac<grams, meters>, meters>>                  ::reduces_to<grams>();
-  assert_unit   <mul<meters, frac<grams, seconds>>>                 ::reduces_to<frac<mul<meters, grams>, seconds>>();
-  assert_unit   <mul<frac<grams, seconds>, meters>>                 ::reduces_to<frac<mul<meters, grams>, seconds>>();
-  assert_unit   <frac<mul<meters, meters>, mul<meters, meters>>>    ::reduces_to<no_unit>();
-  assert_unit   <frac<mul<meters, meters>, meters>>                 ::reduces_to<meters>();
-  assert_unit   <frac<meters, mul<meters, meters>>>                 ::reduces_to<frac<no_unit, meters>>();
-  assert_unit   <mul<frac<meters, seconds>, frac<meters, seconds>>> ::reduces_to<frac<mul<meters, meters>, mul<seconds, seconds>>>();
-  assert_unit   <frac<mul<meters, mul<meters, seconds>, seconds>, mul<seconds, seconds, meters, seconds>>>
-                                                                    ::reduces_to<frac<meters, seconds>>();
-  assert_unit   <mul<mul<meters,seconds>,kilograms>>                ::reduces_to<mul<meters,seconds, kilograms>>();
+  assert_unit   <mul<meter>>                                       ::reduces_to<meter>();
+  assert_unit   <mul<meter, no_unit>>                              ::reduces_to<meter>();
+  assert_unit   <mul<no_unit, meter>>                              ::reduces_to<meter>();
+  assert_unit   <mul<meter, frac<grams, meter>>>                  ::reduces_to<grams>();
+  assert_unit   <mul<frac<grams, meter>, meter>>                  ::reduces_to<grams>();
+  assert_unit   <mul<meter, frac<grams, seconds>>>                 ::reduces_to<frac<mul<meter, grams>, seconds>>();
+  assert_unit   <mul<frac<grams, seconds>, meter>>                 ::reduces_to<frac<mul<meter, grams>, seconds>>();
+  assert_unit   <frac<mul<meter, meter>, mul<meter, meter>>>    ::reduces_to<no_unit>();
+  assert_unit   <frac<mul<meter, meter>, meter>>                 ::reduces_to<meter>();
+  assert_unit   <frac<meter, mul<meter, meter>>>                 ::reduces_to<frac<no_unit, meter>>();
+  assert_unit   <mul<frac<meter, seconds>, frac<meter, seconds>>> ::reduces_to<frac<mul<meter, meter>, mul<seconds, seconds>>>();
+  assert_unit   <frac<mul<meter, mul<meter, seconds>, seconds>, mul<seconds, seconds, meter, seconds>>>
+                                                                    ::reduces_to<frac<meter, seconds>>();
+  assert_unit   <mul<mul<meter,seconds>,kilograms>>                ::reduces_to<mul<meter,seconds, kilograms>>();
 
-  assert_unit   <mul<frac<meters, mul<seconds, seconds>>, seconds>> ::reduces_to<frac<meters, seconds>>();
-  assert_unit   <mul<frac<meters, mul<seconds, seconds, seconds>>, seconds>>
-                                                                    ::reduces_to<frac<meters, mul<seconds, seconds>>>();
-  assert_unit   <mul<frac<mul<meters, meters>, mul<seconds, seconds>>, mul<meters, meters>>>
-                                                                    ::reduces_to<frac<mul<meters, meters, meters, meters>, mul<seconds, seconds>>>();
+  assert_unit   <mul<frac<meter, mul<seconds, seconds>>, seconds>> ::reduces_to<frac<meter, seconds>>();
+  assert_unit   <mul<frac<meter, mul<seconds, seconds, seconds>>, seconds>>
+                                                                    ::reduces_to<frac<meter, mul<seconds, seconds>>>();
+  assert_unit   <mul<frac<mul<meter, meter>, mul<seconds, seconds>>, mul<meter, meter>>>
+                                                                    ::reduces_to<frac<mul<meter, meter, meter, meter>, mul<seconds, seconds>>>();
 
 //@formatter:on
 
@@ -138,21 +150,21 @@ TEST("Unit reduction") {
 }
 
 TEST("Unit conversion") {
-  quantity_t<frac<meters,seconds>, double> vel = 100.0;
+  Q<frac<meter,seconds>, double> vel = 100.0;
   std::cout << "v: " << vel << std::endl;
-  std::cout << "v: " << vel.as<frac<kilometers, hours>>() << std::endl;
+  std::cout << "v: " << vel.as<frac<kilometer, hours>>() << std::endl;
 
-  quantity_t<mul<meters,seconds>, double> something = 100.0;
+  Q<mul<meter,seconds>, double> something = 100.0;
   std::cout << "s: " << something << std::endl;
-  std::cout << "s: " << something.as<mul<kilometers, hours>>() << std::endl;
+  std::cout << "s: " << something.as<mul<kilometer, hours>>() << std::endl;
   return 0;
 }
 
 TEST("Quantity comparison") {
-  quantity_t<frac<meters,seconds>, int> vel = 100.0;
-  quantity_t<frac<meters,seconds>, int> vel1 = 150.0;
-  quantity_t<frac<meters,hours>, int> vel2 = 150.0;
-  quantity_t<mul<meters,seconds>, int> something = 100.0;
+  Q<frac<meter,seconds>, int> vel = 100.0;
+  Q<frac<meter,seconds>, int> vel1 = 150.0;
+  Q<frac<meter,hours>, int> vel2 = 150.0;
+  Q<mul<meter,seconds>, int> something = 100.0;
 
   if (vel < vel1) {}
   if (vel > vel1) {}
@@ -170,16 +182,20 @@ TEST("Quantity comparison") {
   // if (vel == something) {}
 
   // std::cout << "s: " << something << std::endl;
-  // std::cout << "s: " << something.as<mul<kilometers, hours>>() << std::endl;
+  // std::cout << "s: " << something.as<mul<kilometer, hours>>() << std::endl;
   return 0;
 }
 
 template <typename U>
-using value = quantity_t<reduce<U>, double>;
+using value = Q<reduce<U>, double>;
+
+auto compute_speed(distance::quantity auto dist, time::quantity auto dt) {
+  return dist / dt;
+}
 
 TEST("Example") {
-  using joules = frac<mul<kilograms, meters, meters>, mul<seconds, seconds>>;
-  using newtons = frac<mul<kilograms, meters>, mul<seconds, seconds>>;
+  using joules = frac<mul<kilograms, meter, meter>, mul<seconds, seconds>>;
+  using newtons = frac<mul<kilograms, meter>, mul<seconds, seconds>>;
   using namespace power;
 
   // Water
@@ -187,7 +203,7 @@ TEST("Example") {
   T_ci.as<celsius>().as<kelvin>();
   value<frac<kilograms, seconds>> m_c = 0.2;
   // Dimensions
-  value<meters> L = 70;
+  value<meter> L = 70;
   value<millimeter> D_i = 25;
   // Oil
   value<kelvin> T_hi = 373;
@@ -196,14 +212,14 @@ TEST("Example") {
 
   // Water properties @ 310K
   value<frac<joules, mul<kilograms,kelvin>>> cp_w = 4178;
-  value<frac<mul<newtons,seconds>,mul<meters,meters>>> mu_w = 725e-6;
+  value<frac<mul<newtons,seconds>,mul<meter,meter>>> mu_w = 725e-6;
   value<no_unit> Pr_w = 4.85;
-  value<frac<watts,mul<meters,kelvin>>> k_w = 0.625;
+  value<frac<watts,mul<meter,kelvin>>> k_w = 0.625;
 
   // Water properties @ 310K
   value<frac<joules, mul<kilograms,kelvin>>> cp_oil = 2131;
-  value<frac<mul<newtons,seconds>,mul<meters,meters>>> mu_oil = 3.25e-2;
-  value<frac<watts,mul<meters,kelvin>>> k_oil = 0.138;
+  value<frac<mul<newtons,seconds>,mul<meter,meter>>> mu_oil = 3.25e-2;
+  value<frac<watts,mul<meter,kelvin>>> k_oil = 0.138;
 
   auto q_oil = m_h * cp_oil * (T_hi - T_ho);
 
@@ -219,11 +235,11 @@ TEST("Example") {
   value<seconds> s1{1.234};
   std::cout << "P: " << p1*s1 << std::endl;
   std::cout << "P: " << p1*s1*s1 << std::endl;
-  std::cout << "P: " << (p1*s1*s1).as<frac<mul<grams, meters, meters>, seconds>>() << std::endl;
+  std::cout << "P: " << (p1*s1*s1).as<frac<mul<grams, meter, meter>, seconds>>() << std::endl;
   std::cout << "P: " << p1.as<watts>() << std::endl;
   std::cout << "P: " << p1.as<kilowatts>() << std::endl;
   std::cout << "P: " << p1.as<megawatts>() << std::endl;
-  std::cout << "P: " << p1.as<frac<mul<kilograms, meters, meters>, mul<seconds, seconds, seconds>>>() << std::endl;
+  std::cout << "P: " << p1.as<frac<mul<kilograms, meter, meter>, mul<seconds, seconds, seconds>>>() << std::endl;
 
   return 0;
 }

@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:emf;
-export import quantify.core;
+import quantify.core;
 
 import :power;
 import :electric_current;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(emf, frac<power::scale, electric_current::scale>) {
-    METRIC_SCALE(volts, "V", 1, 1)
+    METRIC_UNIT(volts, "V", 1, 1);
   }
+  //! @}
 }

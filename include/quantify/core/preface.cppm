@@ -17,29 +17,26 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.core:preface;
-export import std;
-export import packtl;
-export import quantify.ratio;
+import std;
+import packtl;
+export import :ratio;
 
 namespace quantify {
-  export struct no_scale {
-
-  };
+  export struct no_scale {};
   export struct no_unit {
-    using scale = no_scale;
+    using scale  = no_scale;
     using reduce = no_unit;
 
-    template<typename T>
+    template <typename T>
     using factor = ratio<T, 1, 1>;
 
     UNIT_SYMBOL("(no unit)")
   };
 
-  export template<typename U_FROM, typename U_TO, typename T>
-  struct unit_conversion_t {
-  };
+  export template <typename U_FROM, typename U_TO, typename T>
+  struct unit_conversion_t {};
 
-  export template<typename S_FROM, typename S_TO>
+  export template <typename S_FROM, typename S_TO>
   struct scale_conversion_t;
 
   export {
@@ -50,6 +47,20 @@ namespace quantify {
 
     template <typename Expr>
     using reduce = typename reduce_impl<Expr>::type;
+
+    template <typename Scale>
+    struct reduce_scale {
+      using type = Scale;
+    };
+
+    template <typename Scale>
+    requires requires {
+      typename reduce_impl<Scale>::type;
+    }
+    struct reduce_scale<Scale> {
+      using type = reduce<Scale>;
+    };
+
   }
 
   export {
@@ -59,37 +70,44 @@ namespace quantify {
     template <typename N, typename D>
     struct frac;
 
-    template <typename ...>
+    template <typename...>
     struct is_mul: std::false_type {};
 
-    template <typename ...Args>
+    template <typename... Args>
     struct is_mul<mul<Args...>>: std::true_type {};
 
     template <typename M>
     constexpr bool is_mul_v = is_mul<M>::value;
 
-    template <typename ...>
+    template <typename...>
     struct is_frac: std::false_type {};
 
-    template <typename ...Args>
+    template <typename... Args>
     struct is_frac<frac<Args...>>: std::true_type {};
 
     template <typename F>
     constexpr bool is_frac_v = is_frac<F>::value;
 
+    /*! @brief Predicate that checks if a type defines a scale for itself
+     *
+     * Units and scales both satisfy this concept since the former defines their measurement
+     * scale and the latter references itself.
+     *
+     * @tparam S
+     */
     template <typename S>
-    concept has_scale = requires {
-      typename S::scale;
-    };
+    concept has_scale = requires { typename S::scale; };
 
+    //! See @refitem has_scale
     template <typename S>
     constexpr bool has_scale_v = has_scale<S>;
 
+    //! @cond NEVER
     template <typename Mul, typename CancelProduct>
     using cancel_out = typename packtl::take_one_out<CancelProduct, Mul>::type;
 
     template <typename...>
-    struct cancel_out_many { };
+    struct cancel_out_many {};
 
     template <typename Mul, typename CP>
     struct cancel_out_many<Mul, CP> {
@@ -105,10 +123,8 @@ namespace quantify {
         cancel_out_many<cancelled, CancelProducts...>,
         packtl::take_one_out<typename packtl::get_first<CancelProducts...>::type, cancelled>>;
 
-      using result = std::conditional_t<
-        sizeof...(CancelProducts) == 0,
-        cancelled,
-        typename cancelled_many::type>;
+      using result = std::
+        conditional_t<sizeof...(CancelProducts) == 0, cancelled, typename cancelled_many::type>;
 
     public:
       using type = result;
@@ -142,15 +158,16 @@ namespace quantify {
     };
 
     template <typename P1, typename... Ps>
-      requires (!is_frac_v<P1> && (is_frac_v<Ps> || ...))
+      requires(!is_frac_v<P1> && (is_frac_v<Ps> || ...))
     struct normalize_impl<mul<P1, Ps...>> {
       using type = normalize_impl_t<mul<Ps..., P1>>;
     };
 
-    
+
     template <typename... Ps>
     struct normalize<mul<Ps...>> {
       using type = normalize_impl_t<typename packtl::flatten<mul<Ps...>>::type>;
     };
+    //! @endcond
   }
-}
+} // namespace quantify

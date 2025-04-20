@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:electric_capacitance;
-export import quantify.core;
+import quantify.core;
 
 import :emf;
 import :electric_charge;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(electric_capacitance, frac<electric_charge::scale, emf::scale>) {
-    METRIC_SCALE(farads, "F", 1, 1)
+    METRIC_UNIT(farads, "F", 1, 1);
   }
+  //! @}
 }

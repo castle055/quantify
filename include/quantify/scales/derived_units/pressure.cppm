@@ -16,7 +16,7 @@
 module;
 #include "quantify/unit_macros.h"
 export module quantify.scales:pressure;
-export import quantify.core;
+import quantify.core;
 
 import :mass;
 import :distance;
@@ -24,7 +24,10 @@ import :time;
 import :force;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(pressure, frac<force::scale, mul<distance::scale, distance::scale>>) {
-    METRIC_SCALE(pascals, "Pa", 1, 1);
+    METRIC_UNIT(pascals, "Pa", 1, 1);
   }
+  //! @}
 }

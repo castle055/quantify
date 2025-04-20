@@ -17,12 +17,15 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:frequency;
-export import quantify.core;
+import quantify.core;
 
 import :time;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(frequency, frac<no_scale, time::scale>) {
-    METRIC_SCALE(hertz, "Hz", 1, 1)
+    METRIC_UNIT(hertz, "Hz", 1, 1);
   }
+  //! @}
 }

@@ -13,12 +13,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/*! \file  units.cppm
- *! \brief
- *!
- */
+export module quantify.core:ratio;
 
-export module quantify;
-
-export import quantify.core;
-export import quantify.scales;
+export
+namespace quantify {
+  /*! @brief Static representation of a numerical ratio in the form of a fraction.
+   *
+   * @tparam T Type used to represent the numerator and the denominator
+   * @tparam Num Numerator quantity
+   * @tparam Den Denominator quantity
+   */
+  template<typename T, auto Num, auto Den>
+  struct ratio {
+    static constexpr T numerator   = Num;
+    static constexpr T denominator = Den;
+  };
+}

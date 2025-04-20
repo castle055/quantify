@@ -23,8 +23,7 @@ module;
 #define REDUCE_PATTERN(...) struct reduce_impl<__VA_ARGS__>
 
 export module quantify.core:reduce_rules;
-export import std;
-export import packtl;
+import std;
 import :preface;
 
 export namespace quantify {

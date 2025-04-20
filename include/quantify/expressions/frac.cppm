@@ -17,8 +17,7 @@ module;
 #include <quantify/unit_macros.h>
 export module quantify.core:frac;
 import std;
-import packtl;
-export import quantify.ratio;
+import :preface;
 
 export namespace quantify {
   template<typename Numerator, typename Denominator>

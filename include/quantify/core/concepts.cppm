@@ -14,16 +14,13 @@
 // limitations under the License.
 
 /*! \file  concepts.cppm
- *! \brief
- *!
+ *  \brief
+ *
  */
 
 export module quantify.core:concepts;
 import :reduce_rules;
 import :preface;
-export import packtl;
-
-namespace packs = packtl;
 
 namespace quantify {
   export template<typename U_FROM, typename U_TO, typename T>
@@ -38,6 +35,7 @@ namespace quantify {
                               || requires { scale_conversion_t<S_TO, S_FROM>{}; };
 
   // export {
+  //! @cond NEVER
     template <typename...>
     struct compare {
       template <typename...>
@@ -97,20 +95,8 @@ namespace quantify {
       template <typename Any>
       struct equals<Any>: std::false_type {};
     };
+  //! @endcond
   // }
-
-  export template <typename Scale>
-  struct reduce_scale {
-    using type = Scale;
-  };
-
-  export template <typename Scale>
-  requires requires {
-    typename reduce_impl<Scale>::type;
-  }
-  struct reduce_scale<Scale> {
-    using type = reduce<Scale>;
-  };
 
   export template<typename U1, typename U2>
   concept CompareScales = compare_eq<typename reduce_scale<U1>::type, typename reduce_scale<U2>::type>::value;
@@ -118,18 +104,49 @@ namespace quantify {
   export template<typename U1, typename U2>
   concept SameScale = CompareScales<typename U1::scale, typename U2::scale>;
 
+  /*! @brief Unit agnostic type concept for use with the `auto` keyword
+   */
   export template<typename Q, typename S>
   concept Quantity = std::same_as<typename Q::unit::scale, S>;
 
+
   export template<typename U, typename T>
-  struct quantity_t;
+  struct quantity;
 
+  /*! @brief Predicate that checks if a type is a quantity regardless of its unit
+   *
+   * Checks whether the typename `T` is a specialization of the @refitem quantify::quantity class
+   *
+   * @sa constexpr boolean: quantify::is_quantity_v
+   * @sa concept: quantify::QuantityConcept
+   *
+   * @tparam T
+   * @hideinitializer
+   */
   export template <typename T>
-  using is_quantity = packs::is_type<quantity_t, T>;
+  using is_quantity = packtl::is_type<quantity, T>;
 
+  /*! @brief Predicate that checks if a type is a quantity regardless of its unit
+   *
+   * Checks whether the typename `T` is a specialization of the @refitem quantify::quantity class
+   *
+   * @sa predicate struct: quantify::is_quantity
+   * @sa concept: quantify::QuantityConcept
+   *
+   * @tparam T
+   */
   export template <typename T>
   constexpr bool is_quantity_v = is_quantity<T>::value;
 
+  /*! @brief Predicate that checks if a type is a quantity regardless of its unit
+   *
+   * Checks whether the typename `T` is a specialization of the @refitem quantify::quantity class
+   *
+   * @sa predicate struct: quantify::is_quantity
+   * @sa constexpr boolean: quantify::is_quantity_v
+   *
+   * @tparam T
+   */
   export template <typename T>
   concept QuantityConcept = is_quantity_v<T>;
 }

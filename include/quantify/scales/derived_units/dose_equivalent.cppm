@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:dose_equivalent;
-export import quantify.core;
+import quantify.core;
 
 import :energy;
 import :mass;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(dose_equivalent, mul<energy::scale, mass::scale>) {
-    METRIC_SCALE(sieverts, "Sv", 1, 1)
+    METRIC_UNIT(sieverts, "Sv", 1, 1);
   }
+  //! @}
 }

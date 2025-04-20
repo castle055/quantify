@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:luminous_flux;
-export import quantify.core;
+import quantify.core;
 
 import :light_intensity;
 import :solid_angle;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(luminous_flux, mul<light_intensity::scale, solid_angle::scale>) {
-    METRIC_SCALE(lumen, "lm", 1, 1)
+    METRIC_UNIT(lumen, "lm", 1, 1);
   }
+  //! @}
 }

@@ -17,12 +17,15 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:solid_angle;
-export import quantify.core;
+import quantify.core;
 
 import :angle;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(solid_angle, mul<angle::scale, angle::scale>) {
-    METRIC_SCALE(steradian, "sr", 1, 1)
+    METRIC_UNIT(steradian, "sr", 1, 1);
   }
+  //! @}
 }

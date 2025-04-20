@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:electric_resistance;
-export import quantify.core;
+import quantify.core;
 
 import :emf;
 import :electric_current;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(electric_resistance, frac<emf::scale, electric_current::scale>) {
-    METRIC_SCALE(ohms, "ohm", 1, 1)
+    METRIC_UNIT(ohms, "ohm", 1, 1);
   }
+  //! @}
 }

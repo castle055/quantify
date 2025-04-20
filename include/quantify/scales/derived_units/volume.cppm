@@ -17,12 +17,15 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:volume;
-export import quantify.core;
+import quantify.core;
 
 import :distance;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(volume, mul<distance::scale, distance::scale, distance::scale>) {
-    METRIC_SCALE(liters, "L", 1, 1)
+    METRIC_UNIT(liters, "L", 1, 1);
   }
+  //! @}
 }

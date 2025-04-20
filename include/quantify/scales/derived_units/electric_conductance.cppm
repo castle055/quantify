@@ -17,12 +17,15 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:electric_conductance;
-export import quantify.core;
+import quantify.core;
 
 import :electric_resistance;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(electric_conductance, frac<no_scale, electric_resistance::scale>) {
-    METRIC_SCALE(siemens, "S", 1, 1)
+    METRIC_UNIT(siemens, "S", 1, 1);
   }
+  //! @}
 }

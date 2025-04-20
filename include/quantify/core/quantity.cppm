@@ -19,7 +19,7 @@ module;
 #define R(...) reduce<__VA_ARGS__>
 
 export module quantify.core:quantity;
-export import std;
+import std;
 import :preface;
 import :concepts;
 export import :frac;
@@ -27,7 +27,7 @@ export import :mul;
 
 export namespace quantify {
   template<typename U, typename T>
-  struct quantity_t {
+  struct quantity {
     using unit      = U;
     using data_type = T;
 
@@ -37,22 +37,21 @@ export namespace quantify {
       return value * U::template factor<T>::numerator / U::template factor<T>::denominator;
     }
 
-
     template<typename U1>
       requires SameScale<U, U1>
-    auto operator<=>(const quantity_t<U1, T>& rhl) const {
+    auto operator<=>(const quantity<U1, T>& rhl) const {
       return this->value <=> rhl.template as<U>().value;
     }
 
     template<typename U1>
       requires SameScale<U, U1>
-    bool operator<(const quantity_t<U1, T>& rhl) const {
+    bool operator<(const quantity<U1, T>& rhl) const {
       return this->value < rhl.template as<U>().value;
     }
 
     template<typename U1>
       requires SameScale<U, U1>
-    bool operator==(const quantity_t<U1, T>& rhl) const {
+    bool operator==(const quantity<U1, T>& rhl) const {
       return this->value == rhl.template as<U>().value;
     }
 
@@ -76,139 +75,143 @@ export namespace quantify {
 
     template<typename U1>
       requires SameScale<U, U1>
-    quantity_t<R(frac<R(U), R(U)>), T> operator/(const quantity_t<U1, T> &rhl) const {
+    quantity<R(frac<R(U), R(U)>), T> operator/(const quantity<U1, T> &rhl) const {
       return {this->value / rhl.template as<R(U)>().value};
     }
 
     template<typename U1>
       requires (!SameScale<U, U1>)
-    quantity_t<R(frac<R(U), R(U1)>), T> operator/(const quantity_t<U1, T> &rhl) const {
+    quantity<R(frac<R(U), R(U1)>), T> operator/(const quantity<U1, T> &rhl) const {
       return {this->value / rhl.value};
     }
 
     template<typename T1>
       requires (not QuantityConcept<T1>)
-    quantity_t<R(U), T> operator/(const T1& rhl) const {
+    quantity<R(U), T> operator/(const T1& rhl) const {
       return {this->value / rhl};
     }
 
     template<typename U1>
       requires SameScale<U, U1>
-    quantity_t<R(mul<R(U), R(U)>), T> operator*(const quantity_t<U1, T> &rhl) const {
+    quantity<R(mul<R(U), R(U)>), T> operator*(const quantity<U1, T> &rhl) const {
       return {this->value * rhl.template as<R(U)>().value};
     }
 
     template<typename U1>
       requires (!SameScale<U, U1>)
-    quantity_t<R(mul<R(U), R(U1)>), T> operator*(const quantity_t<U1, T> &rhl) const {
+    quantity<R(mul<R(U), R(U1)>), T> operator*(const quantity<U1, T> &rhl) const {
       return {this->value * rhl.value};
     }
 
     template<typename T1>
       requires (not QuantityConcept<T1>)
-    quantity_t<R(U), T> operator*(const T1& rhl) const {
+    quantity<R(U), T> operator*(const T1& rhl) const {
       return {this->value * rhl};
     }
 
     template<typename U1, typename T1>
       requires (SameScale<U, U1>)
-    quantity_t<R(U), T1> operator+(const quantity_t<U1, T1> &rhl) const {
+    quantity<R(U), T1> operator+(const quantity<U1, T1> &rhl) const {
       return {this->value + rhl.template as<R(U)>().value};
     }
 
     template<typename U1, typename T1>
       requires (SameScale<U, U1>)
-    quantity_t<R(U), T1>& operator+=(const quantity_t<U1, T1> &rhl) {
+    quantity<R(U), T1>& operator+=(const quantity<U1, T1> &rhl) {
       this->value += rhl.template as<R(U)>().value;
       return *this;
     }
 
     template<typename U1, typename T1>
       requires (SameScale<U, U1>)
-    quantity_t<R(U), T1> operator-(const quantity_t<U1, T1> &rhl) const {
+    quantity<R(U), T1> operator-(const quantity<U1, T1> &rhl) const {
       return {this->value - rhl.template as<R(U)>().value};
     }
 
     template<typename U1, typename T1>
       requires (SameScale<U, U1>)
-    quantity_t<R(U), T1>& operator-=(const quantity_t<U1, T1> &rhl) {
+    quantity<R(U), T1>& operator-=(const quantity<U1, T1> &rhl) {
       this->value -= rhl.template as<R(U)>().value;
       return *this;
     }
 
-    quantity_t<U, T> operator-() const {
+    quantity<U, T> operator-() const {
       return {-(this->value)};
     }
 
-    constexpr quantity_t() = default;
+    constexpr quantity() = default;
 
-    constexpr quantity_t(T value_): value(value_) {
+    constexpr quantity(T value_): value(value_) {
     }
 
     //! Copy
-    quantity_t(const quantity_t &other) {
+    template <typename T1>
+    quantity(const quantity<U,T1> &other) {
       this->value = other.value;
     }
 
     //! Copy
-    template <typename U1>
+    template <typename U1, typename T1>
       requires(
         not std::same_as<R(U), R(U1)> &&
         (SameScale<U, U1> || Convertible<U, U1, T> ||
          ConvertibleScales<typename U::scale, typename U1::scale, U, U1, T>)
       )
-    quantity_t(const quantity_t<U1, T>& other) {
+    quantity(const quantity<U1, T1>& other) {
       this->value = other.template as<U>().value;
     }
 
     //! Copy
-    quantity_t &operator=(const quantity_t &rhl) {
+    template <typename T1>
+    quantity &operator=(const quantity<U,T1> &rhl) {
       this->value = rhl.value;
       return *this;
     }
 
     //! Copy
-    template <typename U1>
+    template <typename U1, typename T1>
       requires(
         not std::same_as<R(U), R(U1)> &&
         (SameScale<U, U1> || Convertible<U, U1, T> ||
          ConvertibleScales<typename U::scale, typename U1::scale, U, U1, T>)
       )
-    quantity_t &operator=(const quantity_t<U1, T> &rhl) {
+    quantity &operator=(const quantity<U1, T1> &rhl) {
       this->value = rhl.template as<U>().value;
       return *this;
     }
 
     //! Move
-    quantity_t(quantity_t &&other) noexcept {
+    template <typename T1>
+    quantity(quantity<U,T1> &&other) noexcept {
       this->value = other.value;
     }
 
     //! Move
-    template <typename U1>
+    template <typename U1, typename T1>
       requires(
         not std::same_as<R(U), R(U1)> &&
         (SameScale<U, U1> || Convertible<U, U1, T> ||
          ConvertibleScales<typename U::scale, typename U1::scale, U, U1, T>)
       )
-    quantity_t(quantity_t<U1, T>&& other) {
+    quantity(quantity<U1, T1>&& other) {
       this->value = other.template as<U>().value;
     }
 
     //! Move
-    quantity_t &operator=(quantity_t &&rhl) noexcept {
+    template <typename T1>
+    quantity &operator=(quantity<U,T1> &&rhl) noexcept {
       this->value = rhl.value;
       return *this;
     }
 
     //! Move
-    template <typename U1>
+    template <typename U1, typename T1>
       requires(
         not std::same_as<R(U), R(U1)> &&
         (SameScale<U, U1> || Convertible<U, U1, T> ||
          ConvertibleScales<typename U::scale, typename U1::scale, U, U1, T>)
       )
-    quantity_t &operator=(quantity_t<U1, T> &&rhl) {
+    quantity &operator=(quantity<U1, T1> &&rhl) {
       this->value = rhl.template as<U>().value;
       return *this;
     }
@@ -217,11 +220,11 @@ export namespace quantify {
     template<typename U1>
       requires SameScale<U, U1> || Convertible<U, U1, T> || ConvertibleScales<typename U::scale, typename U1::scale, U, U1, T>
     [[nodiscard]]
-    constexpr quantity_t<U1, T> as() const {
+    constexpr quantity<U1, T> as() const {
       if constexpr (std::is_same_v<U, U1>) {
         return *this;
       } else if constexpr (SameScale<U, U1>) {
-        return quantity_t<U1, T> {
+        return quantity<U1, T> {
           this->value
           * (U1::template factor<T>::denominator
              * U::template factor<T>::numerator)
@@ -272,11 +275,11 @@ export namespace quantify {
   }
 
   template<typename U, typename T>
-  using Q = quantity_t<U, T>;
+  using Q = quantity<U, T>;
 }
 
 export template<typename U, typename T>
-std::ostream &operator<<(std::ostream &o, const quantify::quantity_t<U, T> &quantity) {
+std::ostream &operator<<(std::ostream &o, const quantify::quantity<U, T> &quantity) {
   o << quantity.to_string();
   return o;
 }

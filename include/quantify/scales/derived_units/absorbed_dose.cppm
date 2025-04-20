@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:absorbed_dose;
-export import quantify.core;
+import quantify.core;
 
 import :energy;
 import :mass;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(absorbed_dose, mul<energy::scale, mass::scale>) {
-    METRIC_SCALE(grays, "Gy", 1, 1)
+    METRIC_UNIT(grays, "Gy", 1, 1);
   }
+  //! @}
 }

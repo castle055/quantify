@@ -13,8 +13,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export module quantify.scales;
+/*! \file  scales.cppm
+ *  \brief Exports built-in unit scales
+ *
+ */
 
+/*! @brief Built-in unit scales
+ */
+export module quantify.scales;
 //* SI base units
 export import :distance;
 export import :mass;
@@ -23,15 +29,11 @@ export import :time;
 export import :electric_current;
 export import :substance;
 export import :light_intensity;
-
 export import :angle;
-
 //* Derived units
 export import :solid_angle;
-// area
 export import :volume;
 export import :speed;
-// acceleration
 export import :force;
 export import :pressure;
 export import :electric_charge;

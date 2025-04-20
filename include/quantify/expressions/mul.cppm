@@ -20,7 +20,6 @@ export module quantify.core:mul;
 import std;
 import :preface;
 import :frac;
-export import quantify.ratio;
 
 export namespace quantify {
   template <typename... Products>

@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:magnetic_flux;
-export import quantify.core;
+import quantify.core;
 
 import :emf;
 import :time;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(magnetic_flux, mul<emf::scale, time::scale>) {
-    METRIC_SCALE(webers, "Wb", 1, 1)
+    METRIC_UNIT(webers, "Wb", 1, 1);
   }
+  //! @}
 }

@@ -16,10 +16,13 @@
 module;
 #include "quantify/unit_macros.h"
 export module quantify.scales:electric_current;
-export import quantify.core;
+import quantify.core;
 
 export namespace quantify {
+  //! @addtogroup base_units Base scales
+  //! @{
   SCALE(electric_current) {
-    METRIC_SCALE(ampere, "A", 1, 1)
+    METRIC_UNIT(ampere, "A", 1, 1);
   }
+  //! @}
 }

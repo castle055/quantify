@@ -83,7 +83,7 @@ list(APPEND CMAKE_MODULE_PATH ${QUANTIFY_CMAKE_DIR}/Modules)
 ################################################################################
 include(FetchContent)
 
-#[[                           CONFIGURE CYD FABRIC                           ]]#
+#[[                             CONFIGURE PACKTL                             ]]#
 FetchContent_Declare(packtl
         GIT_REPOSITORY https://github.com/castle055/packtl.git
         GIT_TAG main

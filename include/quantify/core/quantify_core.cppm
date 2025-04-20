@@ -13,11 +13,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/*! \file  units.cppm
- *! \brief
- *!
+/*! \file  quantify_core.cppm
+ *  \brief Exports module partitions
+ *
  */
 
+/*! @brief Core components of the Quantify library
+ */
 export module quantify.core;
 
 export import std;
@@ -26,5 +28,3 @@ export import :preface;
 export import :concepts;
 export import :reduce_rules;
 export import :quantity;
-
-// export import fabric.templates.ratio;

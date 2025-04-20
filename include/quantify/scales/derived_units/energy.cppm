@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:energy;
-export import quantify.core;
+import quantify.core;
 
 import :force;
 import :distance;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(energy, mul<force::scale, distance::scale>) {
-    METRIC_SCALE(joule, "J", 1, 1)
+    METRIC_UNIT(joule, "J", 1, 1);
   }
+  //! @}
 }

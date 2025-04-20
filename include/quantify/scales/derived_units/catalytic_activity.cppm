@@ -17,13 +17,16 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:catalytic_activity;
-export import quantify.core;
+import quantify.core;
 
 import :substance;
 import :time;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(catalytic_activity, frac<substance::scale, time::scale>) {
-    METRIC_SCALE(katals, "kat", 1, 1)
+    METRIC_UNIT(katals, "kat", 1, 1);
   }
+  //! @}
 }

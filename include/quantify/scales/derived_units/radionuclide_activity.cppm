@@ -17,12 +17,15 @@ module;
 #include "quantify/unit_macros.h"
 
 export module quantify.scales:radionuclide_activity;
-export import quantify.core;
+import quantify.core;
 
 import :time;
 
 export namespace quantify {
+  //! @addtogroup derived_units Derived scales
+  //! @{
   DERIVED_SCALE(radionuclide_activity, frac<no_scale, time::scale>) {
-    METRIC_SCALE(becquerels, "Bq", 1, 1)
+    METRIC_UNIT(becquerels, "Bq", 1, 1);
   }
+  //! @}
 }

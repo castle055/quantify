@@ -13,13 +13,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export module quantify.ratio;
+/*! \file  quantify.cppm
+ *  \brief Main module file. Exports the whole library
+ *
+ */
 
-export
-namespace quantify {
-  template<typename T, auto Num, auto Den>
-  struct ratio {
-    static constexpr T numerator   = Num;
-    static constexpr T denominator = Den;
-  };
-}
+/*! @brief Exports the whole Quantify library
+ */
+export module quantify;
+
+export import quantify.core;
+export import quantify.scales;
