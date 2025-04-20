@@ -234,7 +234,7 @@ Documentation can be found [here](https://castle055.github.io/quantify/).
 
 ## License
 
-GPL 3.0 &nbsp;&middot;&nbsp; [LICENSE.md](LICENSE.md)
+Apache License 2.0 &nbsp;&middot;&nbsp; [LICENSE.MD](https://castle055.github.io/quantify/license.html)
 
 ---
 
